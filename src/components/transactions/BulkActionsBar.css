@@ -1,0 +1,32 @@
+.eq-bulk-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--bg-active);
+  border: 1px solid var(--brand-emerald-dim);
+  border-radius: var(--radius-md);
+  padding: var(--space-2) var(--space-4);
+  margin-bottom: var(--space-3);
+  animation: eq-rise-in var(--transition-fast);
+}
+
+.eq-bulk-bar__count {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--brand-emerald);
+}
+
+.eq-bulk-bar__actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.eq-bulk-bar__clear {
+  background: none;
+  border: none;
+  color: var(--text-secondary);
+  cursor: pointer;
+  display: inline-flex;
+  padding: 4px;
+}

@@ -1,0 +1,40 @@
+.eq-tx-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.eq-tx-form__type-toggle {
+  display: flex;
+  background: var(--bg-sunken);
+  border-radius: var(--radius-md);
+  padding: 4px;
+}
+.eq-tx-form__type-toggle button {
+  flex: 1;
+  padding: 9px 0;
+  border: none;
+  background: transparent;
+  border-radius: var(--radius-sm);
+  font-weight: 600;
+  font-size: 13.5px;
+  color: var(--text-secondary);
+  cursor: pointer;
+}
+.eq-tx-form__type-toggle button.active {
+  background: var(--bg-surface);
+  color: var(--text-primary);
+  box-shadow: var(--shadow-sm);
+}
+
+.eq-tx-form__row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-3);
+}
+
+@media (max-width: 480px) {
+  .eq-tx-form__row {
+    grid-template-columns: 1fr;
+  }
+}

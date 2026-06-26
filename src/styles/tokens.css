@@ -1,0 +1,120 @@
+/* ============================================================
+   EQUORA DESIGN TOKENS
+   Signature concept: "the balance line" — a beam that tips
+   toward income (moss-emerald) or expense (clay), echoed in
+   the logo, dashboard hero, and every progress indicator.
+   ============================================================ */
+
+:root {
+  /* ---- Brand ---- */
+  --brand-emerald: #1f6f5c;
+  --brand-emerald-soft: #2a8a73;
+  --brand-emerald-dim: rgba(31, 111, 92, 0.12);
+  --brand-clay: #b3473a;
+  --brand-clay-soft: #c75d4f;
+  --brand-clay-dim: rgba(179, 71, 58, 0.12);
+  --brand-amber: #c97a2b;
+  --brand-amber-dim: rgba(201, 122, 43, 0.14);
+  --brand-ink: #0f1b2d;
+
+  /* ---- Light theme (default) ---- */
+  --bg-canvas: #faf8f4;
+  --bg-surface: #ffffff;
+  --bg-surface-raised: #ffffff;
+  --bg-sunken: #f1ede4;
+  --bg-hover: rgba(15, 27, 45, 0.04);
+  --bg-active: rgba(31, 111, 92, 0.08);
+
+  --text-primary: #1a2233;
+  --text-secondary: #5b6470;
+  --text-tertiary: #8b9099;
+  --text-on-brand: #faf8f4;
+  --text-inverse: #faf8f4;
+
+  --border-hairline: rgba(15, 27, 45, 0.1);
+  --border-strong: rgba(15, 27, 45, 0.18);
+  --border-focus: var(--brand-emerald);
+
+  --positive: var(--brand-emerald);
+  --positive-bg: var(--brand-emerald-dim);
+  --negative: var(--brand-clay);
+  --negative-bg: var(--brand-clay-dim);
+  --warning: var(--brand-amber);
+  --warning-bg: var(--brand-amber-dim);
+
+  --shadow-sm: 0 1px 2px rgba(15, 27, 45, 0.04);
+  --shadow-md: 0 4px 16px rgba(15, 27, 45, 0.06);
+  --shadow-lg: 0 12px 32px rgba(15, 27, 45, 0.10);
+  --shadow-focus: 0 0 0 3px rgba(31, 111, 92, 0.25);
+
+  --sidebar-bg: var(--brand-ink);
+  --sidebar-text: #c7cdd8;
+  --sidebar-text-active: #ffffff;
+  --sidebar-hover: rgba(255, 255, 255, 0.06);
+  --sidebar-active-bg: rgba(31, 111, 92, 0.22);
+  --sidebar-border: rgba(255, 255, 255, 0.08);
+
+  /* ---- Type ---- */
+  --font-ui: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-mono: 'IBM Plex Mono', 'SF Mono', Consolas, monospace;
+
+  /* ---- Layout ---- */
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 18px;
+  --radius-pill: 999px;
+
+  --sidebar-w: 264px;
+  --sidebar-w-collapsed: 76px;
+  --header-h: 72px;
+
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+  --space-7: 48px;
+  --space-8: 64px;
+
+  --transition-fast: 140ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-base: 220ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-slow: 360ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+[data-theme='dark'] {
+  --bg-canvas: #0b1320;
+  --bg-surface: #131d2e;
+  --bg-surface-raised: #182334;
+  --bg-sunken: #0e1726;
+  --bg-hover: rgba(255, 255, 255, 0.05);
+  --bg-active: rgba(31, 111, 92, 0.16);
+
+  --text-primary: #eef1f5;
+  --text-secondary: #9aa4b2;
+  --text-tertiary: #6b7585;
+  --text-on-brand: #eef1f5;
+  --text-inverse: #1a2233;
+
+  --border-hairline: rgba(255, 255, 255, 0.08);
+  --border-strong: rgba(255, 255, 255, 0.16);
+
+  --positive: #3ba88c;
+  --positive-bg: rgba(59, 168, 140, 0.14);
+  --negative: #d97062;
+  --negative-bg: rgba(217, 112, 98, 0.14);
+  --warning: #e0964a;
+  --warning-bg: rgba(224, 150, 74, 0.14);
+
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 4px 20px rgba(0, 0, 0, 0.35);
+  --shadow-lg: 0 16px 40px rgba(0, 0, 0, 0.45);
+  --shadow-focus: 0 0 0 3px rgba(59, 168, 140, 0.3);
+
+  --sidebar-bg: #070d17;
+  --sidebar-text: #8d96a5;
+  --sidebar-text-active: #ffffff;
+  --sidebar-hover: rgba(255, 255, 255, 0.05);
+  --sidebar-active-bg: rgba(59, 168, 140, 0.18);
+  --sidebar-border: rgba(255, 255, 255, 0.06);
+}

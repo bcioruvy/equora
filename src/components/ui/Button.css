@@ -1,0 +1,97 @@
+.eq-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  border: 1px solid transparent;
+  border-radius: var(--radius-md);
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background var(--transition-fast), border-color var(--transition-fast),
+    color var(--transition-fast), transform var(--transition-fast), box-shadow var(--transition-fast);
+  line-height: 1;
+}
+
+.eq-btn:active {
+  transform: scale(0.98);
+}
+
+.eq-btn:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.eq-btn--full {
+  width: 100%;
+}
+
+/* Sizes */
+.eq-btn--sm { padding: 7px 12px; font-size: 13px; }
+.eq-btn--md { padding: 10px 16px; font-size: 14px; }
+.eq-btn--lg { padding: 13px 22px; font-size: 15px; }
+
+/* Variants */
+.eq-btn--primary {
+  background: var(--brand-emerald);
+  color: #ffffff;
+}
+.eq-btn--primary:hover:not(:disabled) {
+  background: var(--brand-emerald-soft);
+}
+
+.eq-btn--secondary {
+  background: var(--bg-surface);
+  color: var(--text-primary);
+  border-color: var(--border-strong);
+}
+.eq-btn--secondary:hover:not(:disabled) {
+  background: var(--bg-hover);
+}
+
+.eq-btn--ghost {
+  background: transparent;
+  color: var(--text-secondary);
+}
+.eq-btn--ghost:hover:not(:disabled) {
+  background: var(--bg-hover);
+  color: var(--text-primary);
+}
+
+.eq-btn--danger {
+  background: var(--negative-bg);
+  color: var(--negative);
+}
+.eq-btn--danger:hover:not(:disabled) {
+  background: var(--brand-clay);
+  color: #fff;
+}
+
+.eq-btn--outline-brand {
+  background: transparent;
+  color: var(--brand-emerald);
+  border-color: var(--brand-emerald);
+}
+.eq-btn--outline-brand:hover:not(:disabled) {
+  background: var(--brand-emerald-dim);
+}
+
+.eq-btn__icon {
+  display: inline-flex;
+  align-items: center;
+}
+
+.eq-btn__spinner {
+  width: 16px;
+  height: 16px;
+  border: 2px solid currentColor;
+  border-right-color: transparent;
+  border-radius: 50%;
+  animation: eq-spin 0.6s linear infinite;
+  opacity: 0.8;
+}
+
+@keyframes eq-spin {
+  to { transform: rotate(360deg); }
+}

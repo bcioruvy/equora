@@ -1,0 +1,116 @@
+.eq-widget-link {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--brand-emerald);
+}
+.eq-widget-link:hover {
+  text-decoration: underline;
+}
+
+/* Upcoming bills */
+.eq-bills-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+.eq-bills-list__item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-2) 0;
+  border-bottom: 1px solid var(--border-hairline);
+}
+.eq-bills-list__item:last-child { border-bottom: none; }
+.eq-bills-list__icon {
+  width: 34px;
+  height: 34px;
+  border-radius: var(--radius-md);
+  background: var(--warning-bg);
+  color: var(--warning);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.eq-bills-list__main {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+.eq-bills-list__name {
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--text-primary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.eq-bills-list__date {
+  font-size: 12px;
+  color: var(--text-tertiary);
+}
+.eq-bills-list__amount {
+  font-size: 13.5px;
+  font-weight: 700;
+  color: var(--text-primary);
+  flex-shrink: 0;
+}
+
+/* Budget progress list */
+.eq-budget-progress-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+/* Quick actions */
+.eq-quick-actions {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-3);
+}
+.eq-quick-action {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding: var(--space-4) var(--space-2);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-hairline);
+  background: var(--bg-surface);
+  cursor: pointer;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  transition: all var(--transition-fast);
+}
+.eq-quick-action:hover {
+  border-color: var(--border-strong);
+  background: var(--bg-hover);
+  transform: translateY(-1px);
+}
+.eq-quick-action--positive svg { color: var(--positive); }
+.eq-quick-action--negative svg { color: var(--negative); }
+.eq-quick-action--brand svg { color: var(--brand-emerald); }
+.eq-quick-action--neutral svg { color: var(--text-secondary); }
+
+/* Insights */
+.eq-insights-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+.eq-insights-list__item {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-2);
+  font-size: 13px;
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-md);
+  line-height: 1.45;
+}
+.eq-insights-list__item svg { flex-shrink: 0; margin-top: 1px; }
+.eq-insights-list__item--positive { background: var(--positive-bg); color: var(--positive); }
+.eq-insights-list__item--warning { background: var(--warning-bg); color: var(--warning); }
+.eq-insights-list__item--negative { background: var(--negative-bg); color: var(--negative); }

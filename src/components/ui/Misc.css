@@ -1,0 +1,105 @@
+.eq-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 3px 9px;
+  border-radius: var(--radius-pill);
+  line-height: 1.4;
+}
+
+.eq-badge--positive { background: var(--positive-bg); color: var(--positive); }
+.eq-badge--negative { background: var(--negative-bg); color: var(--negative); }
+.eq-badge--warning { background: var(--warning-bg); color: var(--warning); }
+.eq-badge--neutral { background: var(--bg-sunken); color: var(--text-secondary); }
+.eq-badge--brand { background: var(--brand-emerald-dim); color: var(--brand-emerald); }
+
+/* Empty state */
+.eq-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: var(--space-7) var(--space-4);
+  gap: var(--space-2);
+}
+
+.eq-empty__icon {
+  color: var(--text-tertiary);
+  margin-bottom: var(--space-2);
+}
+
+.eq-empty__title {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.eq-empty__desc {
+  font-size: 13.5px;
+  color: var(--text-secondary);
+  max-width: 320px;
+}
+
+.eq-empty__action {
+  margin-top: var(--space-3);
+}
+
+/* Spinner */
+.eq-spinner {
+  border-radius: 50%;
+  border: 2.5px solid var(--border-hairline);
+  border-top-color: var(--brand-emerald);
+  animation: eq-spin 0.7s linear infinite;
+}
+
+.eq-page-spinner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-3);
+  min-height: 240px;
+  color: var(--text-secondary);
+  font-size: 13.5px;
+}
+
+/* Icon button */
+.eq-icon-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-hairline);
+  background: var(--bg-surface);
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+.eq-icon-btn:hover {
+  background: var(--bg-hover);
+  color: var(--text-primary);
+}
+.eq-icon-btn--danger:hover {
+  background: var(--negative-bg);
+  color: var(--negative);
+  border-color: var(--negative);
+}
+
+/* Avatar */
+.eq-avatar {
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+.eq-avatar--initials {
+  background: var(--brand-emerald);
+  color: #fff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+}
