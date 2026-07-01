@@ -4,6 +4,9 @@
   align-items: center;
   gap: var(--space-4);
   padding: 0 var(--space-6);
+  padding-top: env(safe-area-inset-top);
+  padding-left: calc(var(--space-6) + env(safe-area-inset-left));
+  padding-right: calc(var(--space-6) + env(safe-area-inset-right));
   border-bottom: 1px solid var(--border-hairline);
   background: var(--bg-canvas);
   position: sticky;

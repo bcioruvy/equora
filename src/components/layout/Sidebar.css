@@ -21,6 +21,8 @@
   align-items: center;
   gap: var(--space-2);
   padding: var(--space-5) var(--space-4);
+  padding-top: calc(var(--space-5) + env(safe-area-inset-top));
+  padding-left: calc(var(--space-4) + env(safe-area-inset-left));
   position: relative;
 }
 
@@ -109,6 +111,8 @@
 .eq-sidebar__footer {
   border-top: 1px solid var(--sidebar-border);
   padding: var(--space-3);
+  padding-bottom: calc(var(--space-3) + env(safe-area-inset-bottom));
+  padding-left: calc(var(--space-3) + env(safe-area-inset-left));
   display: flex;
   flex-direction: column;
   gap: 4px;
