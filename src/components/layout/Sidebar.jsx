@@ -68,6 +68,7 @@ export function Sidebar({ collapsed, onToggleCollapse, mobileOpen, onCloseMobile
               key={to}
               to={to}
               onClick={onCloseMobile}
+              onDoubleClick={() => collapsed && onToggleCollapse()}
               className={({ isActive }) => `eq-sidebar__link ${isActive ? 'eq-sidebar__link--active' : ''}`}
               title={collapsed ? label : undefined}
             >

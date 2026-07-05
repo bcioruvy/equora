@@ -26,6 +26,12 @@
   position: relative;
 }
 
+.eq-sidebar--collapsed .eq-sidebar__brand {
+  justify-content: center;
+  padding-left: env(safe-area-inset-left);
+  padding-right: env(safe-area-inset-right);
+}
+
 .eq-sidebar__logo {
   flex-shrink: 0;
   border-radius: 8px;
@@ -59,12 +65,12 @@
 }
 .eq-sidebar--collapsed .eq-sidebar__collapse-btn {
   position: absolute;
-  right: -10px;
-  top: 28px;
+  right: 8px;
+  top: 12px;
   background: var(--brand-emerald);
   color: #fff;
-  width: 22px;
-  height: 22px;
+  width: 20px;
+  height: 20px;
 }
 
 .eq-sidebar__nav {
@@ -87,6 +93,7 @@
   font-weight: 500;
   white-space: nowrap;
   transition: background var(--transition-fast), color var(--transition-fast);
+  touch-action: manipulation;
 }
 
 .eq-sidebar__link-icon {
