@@ -35,6 +35,11 @@
   box-shadow: var(--shadow-focus);
 }
 
+.eq-field__control:focus-within .eq-field__input:focus-visible {
+  box-shadow: none;
+  outline: none;
+}
+
 .eq-field__control--error {
   border-color: var(--brand-clay);
 }
