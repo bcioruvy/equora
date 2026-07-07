@@ -1,4 +1,4 @@
-import { ResponsiveContainer, BarChart, Bar, LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ReferenceLine } from 'recharts';
+import { ResponsiveContainer, BarChart, Bar, Cell, LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ReferenceLine } from 'recharts';
 import { useAuth } from '../../context/AuthContext';
 import { formatCompactMoney } from '../../lib/format';
 import { ChartTooltip } from './IncomeExpenseTrendChart';
@@ -24,7 +24,7 @@ export function CashFlowChart({ data }) {
         <Tooltip content={<ChartTooltip currency={currency} />} />
         <Bar dataKey="net" name="Net cash flow" radius={[6, 6, 6, 6]}>
           {chartData.map((d, idx) => (
-            <Bar key={idx} dataKey="net" fill={d.net >= 0 ? 'var(--positive)' : 'var(--negative)'} />
+            <Cell key={idx} fill={d.net >= 0 ? 'var(--positive)' : 'var(--negative)'} />
           ))}
         </Bar>
       </BarChart>
