@@ -43,7 +43,7 @@ export function AuthPage() {
       </div>
 
       <div className="eq-auth__panel eq-auth__form-panel">
-        <div className="eq-auth__form-wrap">
+        <div className="eq-auth__form-wrap eq-beam-border">
           <div className="eq-auth__tabs" role="tablist">
             <button
               role="tab"
