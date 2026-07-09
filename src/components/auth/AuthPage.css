@@ -66,6 +66,53 @@
 .eq-auth__form-wrap {
   width: 100%;
   max-width: 380px;
+  background: var(--bg-surface);
+  border-radius: var(--radius-lg);
+  padding: var(--space-6);
+  box-shadow: var(--shadow-md);
+}
+
+.eq-beam-border {
+  position: relative;
+  isolation: isolate;
+}
+
+@property --eq-beam-angle {
+  syntax: '<angle>';
+  initial-value: 0deg;
+  inherits: false;
+}
+
+.eq-beam-border::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1.5px;
+  background: conic-gradient(
+    from var(--eq-beam-angle),
+    transparent 0%,
+    var(--brand-emerald) 8%,
+    var(--brand-emerald-soft) 12%,
+    transparent 24%
+  );
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  animation: eq-beam-rotate 6s linear infinite;
+  pointer-events: none;
+}
+
+@keyframes eq-beam-rotate {
+  to {
+    --eq-beam-angle: 360deg;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .eq-beam-border::after {
+    animation: none;
+  }
 }
 
 .eq-auth__tabs {
