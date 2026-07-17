@@ -71,7 +71,7 @@ export function AuthPage() {
 
           <div className="eq-auth__divider"><span>or continue with</span></div>
 
-          <GoogleButton onSuccess={() => navigate(from, { replace: true })} />
+          <GoogleButton />
 
           <p className="eq-auth__switch">
             {tab === 'signin' ? (
@@ -251,24 +251,22 @@ function SignUpForm({ onSuccess }) {
   );
 }
 
-function GoogleButton({ onSuccess }) {
+function GoogleButton() {
   const [loading, setLoading] = useState(false);
   const { showToast } = useToast();
 
   async function handleClick() {
     setLoading(true);
     try {
+      // This navigates away to Google and back — there's no "success" to
+      // return here. Once the user lands back on the app, AuthContext picks
+      // up the result and PublicOnlyRoute redirects them off the auth page.
       await signInWithGoogle();
-      onSuccess();
     } catch (err) {
-      if (err?.code !== 'auth/popup-closed-by-user') {
-        showToast(mapAuthError(err), { tone: 'error' });
-      }
-    } finally {
+      showToast(mapAuthError(err), { tone: 'error' });
       setLoading(false);
     }
   }
-
   return (
     <button className="eq-auth__google-btn" onClick={handleClick} disabled={loading} type="button">
       {loading ? <Loader2 size={18} className="eq-spin" /> : <GoogleIcon />}
