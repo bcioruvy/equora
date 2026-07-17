@@ -1,8 +1,7 @@
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
-  signInWithRedirect,
-  getRedirectResult,
+  signInWithPopup,
   signOut,
   sendEmailVerification,
   sendPasswordResetEmail,
@@ -42,22 +41,18 @@ export async function signInWithEmail({ email, password, rememberMe }) {
 }
 
 export async function signInWithGoogle() {
-  // Safari (especially on iPad) frequently blocks signInWithPopup, so we use
-  // a full-page redirect instead — this navigates away and back, and the
-  // result is picked up by completeGoogleRedirectSignIn() on return.
-  sessionStorage.setItem('eq-google-redirect-pending', '1');
-  await setPersistence(auth, browserLocalPersistence);
-  await signInWithRedirect(auth, googleProvider);
-}
-
-export async function completeGoogleRedirectSignIn() {
-  const result = await getRedirectResult(auth);
-  if (!result?.user) return null;
-  const profile = await getUserProfile(result.user.uid);
+  // IMPORTANT: signInWithPopup must run with nothing awaited before it —
+  // it needs to be the first thing called after the click, or Safari's
+  // popup blocker silently kills it (it only allows window.open() calls
+  // made synchronously in direct response to a user gesture). So we fire
+  // setPersistence without awaiting it, rather than blocking on it first.
+  setPersistence(auth, browserLocalPersistence);
+  const credential = await signInWithPopup(auth, googleProvider);
+  const profile = await getUserProfile(credential.user.uid);
   if (!profile) {
-    await setUserProfile(result.user.uid, {
-      fullName: result.user.displayName || '',
-      email: result.user.email,
+    await setUserProfile(credential.user.uid, {
+      fullName: credential.user.displayName || '',
+      email: credential.user.email,
       currency: 'USD',
       language: 'en',
       dateFormat: 'MMM_D_YYYY',
@@ -65,7 +60,7 @@ export async function completeGoogleRedirectSignIn() {
       createdAt: new Date().toISOString(),
     });
   }
-  return result.user;
+  return credential.user;
 }
 
 export async function logout() {
