@@ -103,5 +103,5 @@ export function mapAuthError(error) {
     'auth/popup-closed-by-user': 'Sign-in was cancelled.',
     'auth/network-request-failed': 'Network error. Check your connection and try again.',
   };
-  return map[code] || 'Something went wrong. Please try again.';
+  return map[code] || `Something went wrong (${code || 'no error code'}). Please try again.`;
 }
