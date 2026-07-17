@@ -1,7 +1,8 @@
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
-  signInWithPopup,
+  signInWithRedirect,
+  getRedirectResult,
   signOut,
   sendEmailVerification,
   sendPasswordResetEmail,
@@ -15,7 +16,7 @@ import {
   browserSessionPersistence,
 } from 'firebase/auth';
 import { auth, googleProvider } from '../firebase/config';
-import { setUserProfile } from '../firebase/firestore';
+import { setUserProfile, getUserProfile } from '../firebase/firestore';
 
 export async function signUpWithEmail({ fullName, email, password }) {
   await setPersistence(auth, browserLocalPersistence);
@@ -41,13 +42,21 @@ export async function signInWithEmail({ email, password, rememberMe }) {
 }
 
 export async function signInWithGoogle() {
+  // Safari (especially on iPad) frequently blocks signInWithPopup, so we use
+  // a full-page redirect instead — this navigates away and back, and the
+  // result is picked up by completeGoogleRedirectSignIn() on return.
   await setPersistence(auth, browserLocalPersistence);
-  const credential = await signInWithPopup(auth, googleProvider);
-  const profile = await import('../firebase/firestore').then((m) => m.getUserProfile(credential.user.uid));
+  await signInWithRedirect(auth, googleProvider);
+}
+
+export async function completeGoogleRedirectSignIn() {
+  const result = await getRedirectResult(auth);
+  if (!result?.user) return null;
+  const profile = await getUserProfile(result.user.uid);
   if (!profile) {
-    await setUserProfile(credential.user.uid, {
-      fullName: credential.user.displayName || '',
-      email: credential.user.email,
+    await setUserProfile(result.user.uid, {
+      fullName: result.user.displayName || '',
+      email: result.user.email,
       currency: 'USD',
       language: 'en',
       dateFormat: 'MMM_D_YYYY',
@@ -55,7 +64,7 @@ export async function signInWithGoogle() {
       createdAt: new Date().toISOString(),
     });
   }
-  return credential.user;
+  return result.user;
 }
 
 export async function logout() {
@@ -103,5 +112,5 @@ export function mapAuthError(error) {
     'auth/popup-closed-by-user': 'Sign-in was cancelled.',
     'auth/network-request-failed': 'Network error. Check your connection and try again.',
   };
-  return map[code] || `Something went wrong (${code || 'no error code'}). Please try again.`;
+  return map[code] || 'Something went wrong. Please try again.';
 }
