@@ -2,6 +2,7 @@ import { createContext, useContext, useEffect, useState } from 'react';
 import { onAuthStateChanged } from 'firebase/auth';
 import { auth } from '../firebase/config';
 import { subscribeToUserProfile } from '../firebase/firestore';
+import { completeGoogleRedirectSignIn } from '../firebase/auth';
 
 const AuthContext = createContext(null);
 
@@ -9,6 +10,14 @@ export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
   const [profile, setProfile] = useState(null);
   const [authLoading, setAuthLoading] = useState(true);
+
+  useEffect(() => {
+    // Picks up the result of a Google redirect sign-in (if the user just
+    // came back from one) and creates their profile doc if this is their
+    // first sign-in. Safe to call even when there's no pending redirect —
+    // it just resolves to null.
+    completeGoogleRedirectSignIn().catch(() => {});
+  }, []);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (firebaseUser) => {
