@@ -5,6 +5,7 @@
   flex-direction: column;
   flex-shrink: 0;
   height: 100vh;
+  height: 100dvh; /* accounts for mobile Safari's collapsing address bar */
   position: sticky;
   top: 0;
   transition: width var(--transition-base);
@@ -221,6 +222,8 @@
     position: fixed;
     left: 0;
     top: 0;
+    height: 100vh;
+    height: 100dvh;
     transform: translateX(-100%);
     width: var(--sidebar-w);
     box-shadow: var(--shadow-lg);
