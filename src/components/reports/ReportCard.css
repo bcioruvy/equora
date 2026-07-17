@@ -1,6 +1,7 @@
 .eq-report-card {
   display: flex;
   flex-direction: column;
+  min-width: 0;
 }
 
 .eq-report-card__icon {
