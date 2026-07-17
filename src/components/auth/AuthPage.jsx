@@ -71,7 +71,7 @@ export function AuthPage() {
 
           <div className="eq-auth__divider"><span>or continue with</span></div>
 
-          <GoogleButton />
+          <GoogleButton onSuccess={() => navigate(from, { replace: true })} />
 
           <p className="eq-auth__switch">
             {tab === 'signin' ? (
