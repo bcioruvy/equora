@@ -45,6 +45,7 @@ export async function signInWithGoogle() {
   // Safari (especially on iPad) frequently blocks signInWithPopup, so we use
   // a full-page redirect instead — this navigates away and back, and the
   // result is picked up by completeGoogleRedirectSignIn() on return.
+  sessionStorage.setItem('eq-google-redirect-pending', '1');
   await setPersistence(auth, browserLocalPersistence);
   await signInWithRedirect(auth, googleProvider);
 }
