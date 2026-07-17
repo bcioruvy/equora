@@ -2,7 +2,6 @@ import { createContext, useContext, useEffect, useState } from 'react';
 import { onAuthStateChanged } from 'firebase/auth';
 import { auth } from '../firebase/config';
 import { subscribeToUserProfile } from '../firebase/firestore';
-import { completeGoogleRedirectSignIn } from '../firebase/auth';
 
 const AuthContext = createContext(null);
 
@@ -10,26 +9,6 @@ export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
   const [profile, setProfile] = useState(null);
   const [authLoading, setAuthLoading] = useState(true);
-
-useEffect(() => {
-    // Picks up the result of a Google redirect sign-in (if the user just
-    // came back from one) and creates their profile doc if this is their
-    // first sign-in. Safe to call even when there's no pending redirect —
-    // it just resolves to null.
-    completeGoogleRedirectSignIn()
-      .then((redirectUser) => {
-        if (sessionStorage.getItem('eq-google-redirect-pending') === '1') {
-          sessionStorage.removeItem('eq-google-redirect-pending');
-          alert(redirectUser ? `Redirect succeeded: ${redirectUser.email}` : 'Redirect returned no user (result was null)');
-        }
-      })
-      .catch((err) => {
-        if (sessionStorage.getItem('eq-google-redirect-pending') === '1') {
-          sessionStorage.removeItem('eq-google-redirect-pending');
-          alert(`Redirect error: ${err?.code || err?.message || err}`);
-        }
-      });
-  }, []);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (firebaseUser) => {
