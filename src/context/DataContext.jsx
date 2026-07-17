@@ -31,14 +31,36 @@ export function DataProvider({ children }) {
       return;
     }
     setLoading(true);
+    // Wait for the first snapshot of each core collection before dropping the
+    // loading state — otherwise the dashboard briefly renders with $0 values
+    // before Firestore's initial data arrives.
+    const loadedKeys = new Set();
+    const CORE_SOURCES = ['transactions', 'accounts', 'budgets', 'goals'];
+    const markLoaded = (key) => {
+      loadedKeys.add(key);
+      if (CORE_SOURCES.every((k) => loadedKeys.has(k))) {
+        setLoading(false);
+      }
+    };
     const unsubs = [
-      subscribeToTransactions(user.uid, (items) => setTransactions(items)),
-      subscribeToAccounts(user.uid, (items) => setAccounts(items)),
-      subscribeToBudgets(user.uid, (items) => setBudgets(items)),
-      subscribeToGoals(user.uid, (items) => setGoals(items)),
+      subscribeToTransactions(user.uid, (items) => {
+        setTransactions(items);
+        markLoaded('transactions');
+      }),
+      subscribeToAccounts(user.uid, (items) => {
+        setAccounts(items);
+        markLoaded('accounts');
+      }),
+      subscribeToBudgets(user.uid, (items) => {
+        setBudgets(items);
+        markLoaded('budgets');
+      }),
+      subscribeToGoals(user.uid, (items) => {
+        setGoals(items);
+        markLoaded('goals');
+      }),
       subscribeToNotifications(user.uid, (items) => setNotifications(items)),
     ];
-    setLoading(false);
     return () => unsubs.forEach((fn) => fn && fn());
   }, [user]);
 
