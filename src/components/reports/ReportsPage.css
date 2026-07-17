@@ -1,6 +1,6 @@
 .eq-grid--reports {
   display: grid;
-  grid-template-columns: repeat(5, 1fr);
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
   gap: var(--space-4);
 }
 
@@ -47,22 +47,4 @@
   color: var(--text-tertiary);
   text-align: center;
   padding: var(--space-3) 0 0;
-}
-
-@media (max-width: 1100px) {
-  .eq-grid--reports {
-    grid-template-columns: repeat(3, 1fr);
-  }
-}
-
-@media (max-width: 700px) {
-  .eq-grid--reports {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-
-@media (max-width: 480px) {
-  .eq-grid--reports {
-    grid-template-columns: 1fr;
-  }
 }
