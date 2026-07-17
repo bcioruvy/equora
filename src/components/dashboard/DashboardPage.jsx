@@ -68,6 +68,15 @@ export function DashboardPage() {
         />
       </div>
 
+      <div style={{ marginTop: 24 }}>
+        <QuickActionsWidget
+          onAddIncome={() => setTxModal({ open: true, type: 'income' })}
+          onAddExpense={() => setTxModal({ open: true, type: 'expense' })}
+          onTransfer={() => setTransferOpen(true)}
+          onCreateBudget={() => setBudgetOpen(true)}
+        />
+      </div>
+
       <div className="eq-grid eq-grid--two-thirds" style={{ marginTop: 24 }}>
         <Card>
           <CardHeader title="Income vs. Expense Trend" subtitle="Last 6 months" />
@@ -106,12 +115,6 @@ export function DashboardPage() {
       </div>
 
       <div className="eq-grid eq-grid--dashboard-bottom" style={{ marginTop: 24 }}>
-        <QuickActionsWidget
-          onAddIncome={() => setTxModal({ open: true, type: 'income' })}
-          onAddExpense={() => setTxModal({ open: true, type: 'expense' })}
-          onTransfer={() => setTransferOpen(true)}
-          onCreateBudget={() => setBudgetOpen(true)}
-        />
         <RecentTransactionsWidget transactions={data.transactions} accounts={data.accounts} />
         <UpcomingBillsWidget bills={data.upcomingBills} />
         <BudgetProgressWidget budgets={data.activeBudgets} />
