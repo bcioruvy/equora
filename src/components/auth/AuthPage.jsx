@@ -251,19 +251,20 @@ function SignUpForm({ onSuccess }) {
   );
 }
 
-function GoogleButton() {
+function GoogleButton({ onSuccess }) {
   const [loading, setLoading] = useState(false);
   const { showToast } = useToast();
 
   async function handleClick() {
     setLoading(true);
     try {
-      // This navigates away to Google and back — there's no "success" to
-      // return here. Once the user lands back on the app, AuthContext picks
-      // up the result and PublicOnlyRoute redirects them off the auth page.
       await signInWithGoogle();
+      onSuccess();
     } catch (err) {
-      showToast(mapAuthError(err), { tone: 'error' });
+      if (err?.code !== 'auth/popup-closed-by-user') {
+        showToast(mapAuthError(err), { tone: 'error' });
+      }
+    } finally {
       setLoading(false);
     }
   }
