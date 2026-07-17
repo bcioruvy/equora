@@ -9,15 +9,34 @@ import { BudgetsPage } from '../components/budgets/BudgetsPage';
 import { GoalsPage } from '../components/goals/GoalsPage';
 import { ReportsPage } from '../components/reports/ReportsPage';
 import { SettingsPage } from '../components/settings/SettingsPage';
-import { DataProvider } from '../context/DataContext';
+import { DataProvider, useData } from '../context/DataContext';
 import { useFinancialAutomation } from '../hooks/useFinancialAutomation';
+import { PageSpinner } from '../components/ui/Misc';
 
 function AppRoot() {
   return (
     <DataProvider>
+      <AppGate />
+    </DataProvider>
+  );
+}
+
+function AppGate() {
+  const { loading } = useData();
+
+  if (loading) {
+    return (
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: '100vh' }}>
+        <PageSpinner label="Loading your data…" />
+      </div>
+    );
+  }
+
+  return (
+    <>
       <AutomationRunner />
       <AppLayout />
-    </DataProvider>
+    </>
   );
 }
 
