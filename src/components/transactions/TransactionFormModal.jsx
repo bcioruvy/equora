@@ -75,8 +75,8 @@ export function TransactionFormModal({ isOpen, onClose, type = 'expense', editin
         showToast(`${form.type === 'income' ? 'Income' : 'Expense'} added`, { tone: 'success' });
       }
       onClose();
-    } catch {
-      showToast('Could not save transaction. Try again.', { tone: 'error' });
+   } catch (err) {
+      showToast(`Could not save transaction: ${err?.code || err?.message || err}`, { tone: 'error' });
     } finally {
       setSaving(false);
     }
