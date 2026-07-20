@@ -32,12 +32,17 @@ export function TransactionFormModal({ isOpen, onClose, type = 'expense', editin
   const [errors, setErrors] = useState({});
   const [saving, setSaving] = useState(false);
 
-  useEffect(() => {
+useEffect(() => {
     if (editingTransaction) {
       setForm({
         ...emptyForm(editingTransaction.type),
         ...editingTransaction,
         date: editingTransaction.date?.slice?.(0, 10) || format(new Date(), 'yyyy-MM-dd'),
+        // tags are stored in Firestore as an array, but the Tags field is a
+        // plain text input — it needs a comma-separated string, not an array.
+        tags: Array.isArray(editingTransaction.tags)
+          ? editingTransaction.tags.join(', ')
+          : editingTransaction.tags || '',
       });
     } else if (isOpen) {
       setForm({ ...emptyForm(type), accountId: accounts[0]?.id || '' });
@@ -75,8 +80,8 @@ export function TransactionFormModal({ isOpen, onClose, type = 'expense', editin
         showToast(`${form.type === 'income' ? 'Income' : 'Expense'} added`, { tone: 'success' });
       }
       onClose();
-   } catch (err) {
-      showToast(`Could not save transaction: ${err?.code || err?.message || err}`, { tone: 'error' });
+    } catch {
+      showToast('Could not save transaction. Try again.', { tone: 'error' });
     } finally {
       setSaving(false);
     }
