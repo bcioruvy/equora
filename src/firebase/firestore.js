@@ -126,3 +126,12 @@ export function subscribeToNotifications(uid, callback) {
 export const addNotification = (uid, data) => addItem(uid, 'notifications', data);
 export const markNotificationRead = (uid, id) => updateItem(uid, 'notifications', id, { read: true });
 export const deleteNotification = (uid, id) => deleteItem(uid, 'notifications', id);
+
+// ---------- Quick Add presets ----------
+
+export function subscribeToQuickAdds(uid, callback) {
+  return subscribeToCollection(uid, 'quickAdds', callback, 'createdAt', 'asc');
+}
+
+export const addQuickAdd = (uid, data) => addItem(uid, 'quickAdds', data);
+export const deleteQuickAdd = (uid, id) => deleteItem(uid, 'quickAdds', id);
