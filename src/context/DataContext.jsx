@@ -213,12 +213,13 @@ export function DataProvider({ children }) {
     };
   }, [transactions, accounts, budgets, goals]);
 
-  const value = {
+const value = {
     transactions,
     accounts,
     budgets,
     goals,
     notifications,
+    quickAdds,
     loading,
     ...derived,
   };
