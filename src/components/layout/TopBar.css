@@ -178,9 +178,35 @@
     display: inline-flex;
   }
   .eq-topbar {
-    padding: 0 var(--space-4);
+    /* Longhand only — a padding shorthand here would silently reset
+       padding-top back to 0, wiping out the safe-area inset from the base
+       rule (same class of bug we already fixed once for this header). */
+    padding-left: calc(var(--space-4) + env(safe-area-inset-left));
+    padding-right: calc(var(--space-4) + env(safe-area-inset-right));
+    padding-top: calc(env(safe-area-inset-top) + var(--space-3));
+    padding-bottom: var(--space-3);
+    /* The header previously had a fixed height, which forced long subtitles
+       or extra action buttons to overflow the box and visually overlap the
+       verification banner above / page content below instead of pushing
+       the header taller. Let it grow, and let its contents wrap onto a
+       second row instead of overlapping. */
+    height: auto;
+    min-height: calc(var(--header-h) + env(safe-area-inset-top));
+    flex-wrap: wrap;
+    row-gap: var(--space-2);
   }
   .eq-topbar__title {
     font-size: 17px;
+  }
+  .eq-topbar__subtitle {
+    /* Truncate to one line instead of wrapping word-by-word down the
+       screen when squeezed by page action buttons (e.g. Export / Add
+       Transaction on the Transactions tab). */
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .eq-topbar__actions {
+    margin-left: auto;
   }
 }
