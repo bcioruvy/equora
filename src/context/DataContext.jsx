@@ -6,6 +6,7 @@ import {
   subscribeToBudgets,
   subscribeToGoals,
   subscribeToNotifications,
+  subscribeToQuickAdds,
 } from '../firebase/firestore';
 import { isSameMonth, isThisMonth, parseISO, startOfMonth, subMonths } from 'date-fns';
 
@@ -18,6 +19,7 @@ export function DataProvider({ children }) {
   const [budgets, setBudgets] = useState([]);
   const [goals, setGoals] = useState([]);
   const [notifications, setNotifications] = useState([]);
+  const [quickAdds, setQuickAdds] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -27,6 +29,7 @@ export function DataProvider({ children }) {
       setBudgets([]);
       setGoals([]);
       setNotifications([]);
+      setQuickAdds([]);
       setLoading(false);
       return;
     }
@@ -60,6 +63,7 @@ export function DataProvider({ children }) {
         markLoaded('goals');
       }),
       subscribeToNotifications(user.uid, (items) => setNotifications(items)),
+      subscribeToQuickAdds(user.uid, (items) => setQuickAdds(items)),
     ];
     return () => unsubs.forEach((fn) => fn && fn());
   }, [user]);
