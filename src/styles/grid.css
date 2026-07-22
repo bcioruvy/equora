@@ -43,22 +43,23 @@
 
 @media (max-width: 760px) {
   .eq-grid--summary {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
   .eq-grid--two,
   .eq-grid--three {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
   }
   .eq-grid--dashboard-bottom {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
   }
   .eq-grid--dashboard-bottom > * {
     grid-column: span 1 !important;
+    grid-row: auto !important;
   }
 }
 
 @media (max-width: 480px) {
   .eq-grid--summary {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
   }
 }
