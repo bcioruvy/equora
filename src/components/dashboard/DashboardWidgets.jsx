@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { Plus, ArrowDownCircle, ArrowUpCircle, Repeat, PiggyBank, Calendar, TrendingUp, AlertTriangle, CheckCircle2 } from 'lucide-react';
+import { Plus, ArrowDownCircle, ArrowUpCircle, Repeat, PiggyBank, Calendar, TrendingUp, AlertTriangle, CheckCircle2, Zap, X } from 'lucide-react';
 import { Card, CardHeader } from '../ui/Card';
 import { EmptyState } from '../ui/Misc';
 import { TransactionRow } from '../transactions/TransactionRow';
@@ -82,7 +82,17 @@ export function BudgetProgressWidget({ budgets }) {
   );
 }
 
-export function QuickActionsWidget({ onAddIncome, onAddExpense, onTransfer, onCreateBudget }) {
+export function QuickActionsWidget({
+  onAddIncome,
+  onAddExpense,
+  onTransfer,
+  onCreateBudget,
+  presets = [],
+  onFirePreset,
+  onAddPreset,
+  onDeletePreset,
+  currency = 'USD',
+}) {
   const actions = [
     { label: 'Add Income', icon: <ArrowUpCircle size={18} />, onClick: onAddIncome, tone: 'positive' },
     { label: 'Add Expense', icon: <ArrowDownCircle size={18} />, onClick: onAddExpense, tone: 'negative' },
@@ -100,6 +110,47 @@ export function QuickActionsWidget({ onAddIncome, onAddExpense, onTransfer, onCr
           </button>
         ))}
       </div>
+
+      {(presets.length > 0 || onAddPreset) && (
+        <div className="eq-quick-add-presets">
+          <div className="eq-quick-add-presets__label">
+            <Zap size={13} />
+            <span>Quick Add</span>
+          </div>
+          <div className="eq-quick-add-presets__list">
+            {presets.map((p) => (
+              <button
+                key={p.id}
+                type="button"
+                className={`eq-quick-add-chip eq-quick-add-chip--${p.type === 'income' ? 'positive' : 'negative'}`}
+                onClick={() => onFirePreset?.(p)}
+              >
+                <span className="eq-quick-add-chip__label">{p.label}</span>
+                <span className="eq-quick-add-chip__amount">{formatMoney(p.amount, currency)}</span>
+                {onDeletePreset && (
+                  <span
+                    className="eq-quick-add-chip__remove"
+                    role="button"
+                    aria-label={`Remove ${p.label}`}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      onDeletePreset(p);
+                    }}
+                  >
+                    <X size={12} />
+                  </span>
+                )}
+              </button>
+            ))}
+            {onAddPreset && (
+              <button type="button" className="eq-quick-add-chip eq-quick-add-chip--new" onClick={onAddPreset}>
+                <Plus size={14} />
+                <span>New Quick Add</span>
+              </button>
+            )}
+          </div>
+        </div>
+      )}
     </Card>
   );
 }
