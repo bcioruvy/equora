@@ -5,11 +5,20 @@ import './Modal.css';
 
 export function Modal({ isOpen, onClose, title, children, footer, size = 'md' }) {
   const modalRef = useRef(null);
+  // Keep the latest onClose in a ref so the effect below doesn't need it in
+  // its dependency array. onClose is a new function reference on every
+  // render (it's usually an inline arrow function), and every keystroke in
+  // a form inside this modal causes a re-render — if onClose were a
+  // dependency, that would re-run modalRef.current.focus() after every
+  // single character, stealing focus from the input and dismissing the
+  // on-screen keyboard.
+  const onCloseRef = useRef(onClose);
+  onCloseRef.current = onClose;
 
   useEffect(() => {
     if (!isOpen) return;
     const handleKeyDown = (e) => {
-      if (e.key === 'Escape') onClose?.();
+      if (e.key === 'Escape') onCloseRef.current?.();
     };
     document.addEventListener('keydown', handleKeyDown);
     const previousOverflow = document.body.style.overflow;
@@ -19,7 +28,7 @@ export function Modal({ isOpen, onClose, title, children, footer, size = 'md' })
       document.removeEventListener('keydown', handleKeyDown);
       document.body.style.overflow = previousOverflow;
     };
-  }, [isOpen, onClose]);
+  }, [isOpen]);
 
   if (!isOpen) return null;
 
