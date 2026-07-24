@@ -5,7 +5,7 @@ import { Button } from '../ui/Button';
 import { useAuth } from '../../context/AuthContext';
 import { useData } from '../../context/DataContext';
 import { useToast } from '../ui/Toast';
-import { addTransaction } from '../../firebase/firestore';
+import { transferBetweenAccounts } from '../../firebase/firestore';
 import { isValidAmount } from '../../lib/validation';
 import { getCurrencySymbol } from '../../lib/format';
 import { format } from 'date-fns';
@@ -34,27 +34,13 @@ export function TransferModal({ isOpen, onClose }) {
       const date = format(new Date(), 'yyyy-MM-dd');
       const fromAccount = accounts.find((a) => a.id === form.fromAccountId);
       const toAccount = accounts.find((a) => a.id === form.toAccountId);
-      await addTransaction(user.uid, {
-        type: 'expense',
+      await transferBetweenAccounts(user.uid, {
+        fromAccountId: form.fromAccountId,
+        toAccountId: form.toAccountId,
         amount: Number(form.amount),
-        category: 'miscellaneous',
         date,
-        notes: `Transfer to ${toAccount?.name || 'account'}${form.notes ? ` — ${form.notes}` : ''}`,
-        accountId: form.fromAccountId,
-        paymentMethod: 'bank_transfer',
-        tags: ['transfer'],
-        recurrence: 'none',
-      });
-      await addTransaction(user.uid, {
-        type: 'income',
-        amount: Number(form.amount),
-        category: 'other_income',
-        date,
-        notes: `Transfer from ${fromAccount?.name || 'account'}${form.notes ? ` — ${form.notes}` : ''}`,
-        accountId: form.toAccountId,
-        paymentMethod: 'bank_transfer',
-        tags: ['transfer'],
-        recurrence: 'none',
+        fromNote: `Transfer to ${toAccount?.name || 'account'}${form.notes ? ` — ${form.notes}` : ''}`,
+        toNote: `Transfer from ${fromAccount?.name || 'account'}${form.notes ? ` — ${form.notes}` : ''}`,
       });
       showToast('Transfer recorded', { tone: 'success' });
       onClose();
