@@ -2,6 +2,7 @@ import { NavLink, useNavigate } from 'react-router-dom';
 import {
   LayoutDashboard,
   ArrowLeftRight,
+  Wallet,
   BarChart3,
   PiggyBank,
   Target,
@@ -23,6 +24,7 @@ import './Sidebar.css';
 const NAV_ITEMS = [
   { to: '/app/dashboard', label: 'Dashboard', icon: LayoutDashboard },
   { to: '/app/transactions', label: 'Transactions', icon: ArrowLeftRight },
+  { to: '/app/accounts', label: 'Accounts', icon: Wallet },
   { to: '/app/analytics', label: 'Analytics', icon: BarChart3 },
   { to: '/app/budgets', label: 'Budgets', icon: PiggyBank },
   { to: '/app/goals', label: 'Goals & Savings', icon: Target },
