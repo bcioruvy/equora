@@ -16,9 +16,9 @@ import {
   serverTimestamp,
   setDoc,
   getDoc,
+  writeBatch,
 } from 'firebase/firestore';
 import { db } from '../firebase/config';
-
 function userCollection(uid, name) {
   return collection(db, 'users', uid, name);
 }
@@ -127,6 +127,46 @@ export const addNotification = (uid, data) => addItem(uid, 'notifications', data
 export const markNotificationRead = (uid, id) => updateItem(uid, 'notifications', id, { read: true });
 export const deleteNotification = (uid, id) => deleteItem(uid, 'notifications', id);
 
+// ---------- Account transfers (atomic) ----------
+
+// Writes both legs of a transfer (expense on the source account, income on
+// the destination account) in a single Firestore batch, so it's impossible
+// for one leg to be created without the other — sequential awaits could
+// leave a transfer half-done if the second write failed.
+export async function transferBetweenAccounts(uid, { fromAccountId, toAccountId, amount, date, fromNote, toNote }) {
+  const batch = writeBatch(db);
+  const fromRef = doc(userCollection(uid, 'transactions'));
+  const toRef = doc(userCollection(uid, 'transactions'));
+
+  batch.set(fromRef, {
+    type: 'expense',
+    amount,
+    category: 'miscellaneous',
+    date,
+    notes: fromNote,
+    accountId: fromAccountId,
+    paymentMethod: 'bank_transfer',
+    tags: ['transfer'],
+    recurrence: 'none',
+    createdAt: serverTimestamp(),
+    updatedAt: serverTimestamp(),
+  });
+  batch.set(toRef, {
+    type: 'income',
+    amount,
+    category: 'other_income',
+    date,
+    notes: toNote,
+    accountId: toAccountId,
+    paymentMethod: 'bank_transfer',
+    tags: ['transfer'],
+    recurrence: 'none',
+    createdAt: serverTimestamp(),
+    updatedAt: serverTimestamp(),
+  });
+
+  return batch.commit();
+}
 // ---------- Quick Add presets ----------
 
 export function subscribeToQuickAdds(uid, callback) {
