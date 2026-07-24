@@ -98,6 +98,18 @@ export function DataProvider({ children }) {
       totalIncomeAllTime -
       totalExpenseAllTime;
 
+    // Each account's live balance = its opening balance plus everything
+    // that's happened in it since (income adds, expenses subtract).
+    // Transfers are already recorded as a normal expense on the source
+    // account and a normal income on the destination account, so they fall
+    // out of this the same way — no special-casing needed.
+    const accountsWithBalance = accounts.map((a) => {
+      const accountTx = transactions.filter((t) => t.accountId === a.id);
+      const balance =
+        (Number(a.openingBalance) || 0) + sumByType(accountTx, 'income') - sumByType(accountTx, 'expense');
+      return { ...a, balance };
+    });
+
     const savingsThisMonth = monthlyIncome - monthlyExpense;
     const savingsLastMonth = lastMonthIncome - lastMonthExpense;
 
@@ -198,6 +210,7 @@ export function DataProvider({ children }) {
 
     return {
       currentBalance,
+      accountsWithBalance,
       monthlyIncome,
       monthlyExpense,
       savingsThisMonth,
