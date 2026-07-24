@@ -29,7 +29,7 @@ const ACCOUNT_ICONS = { cash: Banknote, bank: Landmark, savings: PiggyBank, wall
 export function SettingsPage() {
   const { user, profile, isVerified } = useAuth();
   const { theme, setTheme } = useTheme();
-  const { transactions, accounts } = useData();
+  const { transactions, accounts, accountsWithBalance } = useData();
   const { showToast } = useToast();
 
   const [fullName, setFullName] = useState(profile?.fullName || user?.displayName || '');
@@ -207,7 +207,7 @@ export function SettingsPage() {
           {accounts.length === 0 ? (
             <p style={{ fontSize: 13, color: 'var(--text-secondary)' }}>No accounts yet — add one to start tracking balances.</p>
           ) : (
-            accounts.map((a) => {
+            accountsWithBalance.map((a) => {
               const Icon = ACCOUNT_ICONS[a.type] || Wallet;
               return (
                 <div key={a.id} className="eq-account-list-item">
@@ -216,7 +216,7 @@ export function SettingsPage() {
                     <div className="eq-account-list-item__name">{a.name}</div>
                     <div className="eq-account-list-item__type">{ACCOUNT_TYPES.find((t) => t.id === a.type)?.label}</div>
                   </div>
-                  <span className="eq-account-list-item__balance mono-num">{formatMoney(a.openingBalance, profile?.currency || 'USD')}</span>
+                  <span className="eq-account-list-item__balance mono-num">{formatMoney(a.balance, profile?.currency || 'USD')}</span>
                   <div className="eq-account-list-item__actions">
                     <IconButton icon={<Pencil size={14} />} label="Edit account" onClick={() => setAccountModal({ open: true, account: a })} />
                     <IconButton icon={<Trash2 size={14} />} label="Delete account" tone="danger" onClick={() => handleDeleteFinanceAccount(a.id)} />
