@@ -1,0 +1,63 @@
+.eq-accounts-total {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+.eq-accounts-total__label {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-secondary);
+}
+.eq-accounts-total__value {
+  font-size: 28px;
+  font-weight: 800;
+  color: var(--text-primary);
+  letter-spacing: -0.01em;
+}
+
+.eq-account-card {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.eq-account-card__top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--space-3);
+}
+.eq-account-card__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-md);
+  background: var(--bg-hover);
+  color: var(--brand-emerald);
+}
+.eq-account-card__actions {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.eq-account-card__name {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+.eq-account-card__type {
+  font-size: 12px;
+  color: var(--text-tertiary);
+  margin-bottom: var(--space-3);
+}
+.eq-account-card__balance {
+  font-size: 24px;
+  font-weight: 800;
+  color: var(--text-primary);
+}
+.eq-account-card__balance--negative {
+  color: var(--negative);
+}
