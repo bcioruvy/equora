@@ -4,6 +4,7 @@ import { AppLayout } from '../components/layout/AppLayout';
 import { ProtectedRoute, PublicOnlyRoute } from './ProtectedRoute';
 import { DashboardPage } from '../components/dashboard/DashboardPage';
 import { TransactionsPage } from '../components/transactions/TransactionsPage';
+import { AccountsPage } from '../components/accounts/AccountsPage';
 import { AnalyticsPage } from '../components/analytics/AnalyticsPage';
 import { BudgetsPage } from '../components/budgets/BudgetsPage';
 import { GoalsPage } from '../components/goals/GoalsPage';
@@ -68,6 +69,7 @@ export function AppRouter() {
         <Route index element={<Navigate to="dashboard" replace />} />
         <Route path="dashboard" element={<DashboardPage />} />
         <Route path="transactions" element={<TransactionsPage />} />
+        <Route path="accounts" element={<AccountsPage />} />
         <Route path="analytics" element={<AnalyticsPage />} />
         <Route path="budgets" element={<BudgetsPage />} />
         <Route path="goals" element={<GoalsPage />} />
