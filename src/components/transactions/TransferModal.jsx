@@ -14,7 +14,13 @@ export function TransferModal({ isOpen, onClose }) {
   const { user, profile } = useAuth();
   const { accounts } = useData();
   const { showToast } = useToast();
-  const [form, setForm] = useState({ fromAccountId: '', toAccountId: '', amount: '', notes: '' });
+  const [form, setForm] = useState({
+    fromAccountId: '',
+    toAccountId: '',
+    amount: '',
+    date: format(new Date(), 'yyyy-MM-dd'),
+    notes: '',
+  });
   const [errors, setErrors] = useState({});
   const [saving, setSaving] = useState(false);
   const symbol = getCurrencySymbol(profile?.currency || 'USD');
@@ -31,20 +37,19 @@ export function TransferModal({ isOpen, onClose }) {
 
     setSaving(true);
     try {
-      const date = format(new Date(), 'yyyy-MM-dd');
       const fromAccount = accounts.find((a) => a.id === form.fromAccountId);
       const toAccount = accounts.find((a) => a.id === form.toAccountId);
       await transferBetweenAccounts(user.uid, {
         fromAccountId: form.fromAccountId,
         toAccountId: form.toAccountId,
         amount: Number(form.amount),
-        date,
+        date: form.date,
         fromNote: `Transfer to ${toAccount?.name || 'account'}${form.notes ? ` — ${form.notes}` : ''}`,
         toNote: `Transfer from ${fromAccount?.name || 'account'}${form.notes ? ` — ${form.notes}` : ''}`,
       });
       showToast('Transfer recorded', { tone: 'success' });
       onClose();
-      setForm({ fromAccountId: '', toAccountId: '', amount: '', notes: '' });
+      setForm({ fromAccountId: '', toAccountId: '', amount: '', date: format(new Date(), 'yyyy-MM-dd'), notes: '' });
     } catch {
       showToast('Could not complete transfer. Try again.', { tone: 'error' });
     } finally {
@@ -93,6 +98,13 @@ export function TransferModal({ isOpen, onClose }) {
           onChange={(e) => setForm({ ...form, amount: e.target.value })}
           error={errors.amount}
           placeholder="0.00"
+          required
+        />
+        <Input
+          label="Date"
+          type="date"
+          value={form.date}
+          onChange={(e) => setForm({ ...form, date: e.target.value })}
           required
         />
         <Textarea
