@@ -39,6 +39,7 @@
 }
 .eq-tx-list-item > :first-child {
   flex: 1;
+  min-width: 0;
 }
 
 .eq-tx-list-item__delete {
