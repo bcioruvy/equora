@@ -79,9 +79,18 @@ export function DataProvider({ children }) {
       }
     };
 
-    const thisMonthTx = transactions.filter((t) => isThisMonth(safeDate(t)));
+    // Transfers between your own accounts aren't real income or spending —
+    // exclude them from every "cash flow" style metric below (monthly
+    // income/expense, category breakdown, trends, budgets, insights).
+    // Account balances and the all-accounts total further down still use
+    // every transaction, including transfers, since money still needs to
+    // actually move between accounts there.
+    const isTransfer = (t) => Array.isArray(t.tags) && t.tags.includes('transfer');
+    const cashFlowTransactions = transactions.filter((t) => !isTransfer(t));
+
+    const thisMonthTx = cashFlowTransactions.filter((t) => isThisMonth(safeDate(t)));
     const lastMonthDate = subMonths(new Date(), 1);
-    const lastMonthTx = transactions.filter((t) => isSameMonth(safeDate(t), lastMonthDate));
+    const lastMonthTx = cashFlowTransactions.filter((t) => isSameMonth(safeDate(t), lastMonthDate));
 
     const sumByType = (list, type) =>
       list.filter((t) => t.type === type).reduce((sum, t) => sum + (Number(t.amount) || 0), 0);
@@ -127,7 +136,7 @@ export function DataProvider({ children }) {
     // Last 6 months trend
     const monthsTrend = Array.from({ length: 6 }).map((_, idx) => {
       const monthDate = subMonths(new Date(), 5 - idx);
-      const monthTx = transactions.filter((t) => isSameMonth(safeDate(t), monthDate));
+      const monthTx = cashFlowTransactions.filter((t) => isSameMonth(safeDate(t), monthDate));
       return {
         month: monthDate.toLocaleDateString(undefined, { month: 'short' }),
         income: sumByType(monthTx, 'income'),
