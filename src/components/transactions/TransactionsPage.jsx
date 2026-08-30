@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { Plus, Download, Inbox } from 'lucide-react';
 import { PageShell } from '../layout/PageShell';
 import { Card } from '../ui/Card';
@@ -17,8 +17,6 @@ import { exportTransactionsToCSV, exportTransactionsToExcel, exportTransactionsT
 import { getCategoryById } from '../../lib/constants';
 import './TransactionsPage.css';
 
-const PAGE_SIZE = 12;
-
 export function TransactionsPage() {
   const { transactions, accounts } = useData();
   const { user, profile } = useAuth();
@@ -26,6 +24,7 @@ export function TransactionsPage() {
 
   const [filters, setFilters] = useState({ search: '', type: 'all', category: 'all', accountId: 'all', sort: 'date_desc' });
   const [page, setPage] = useState(1);
+  const [pageSize, setPageSize] = useState(25);
   const [selected, setSelected] = useState(new Set());
   const [formModal, setFormModal] = useState({ open: false, type: 'expense', transaction: null });
   const [exportMenuOpen, setExportMenuOpen] = useState(false);
@@ -53,8 +52,24 @@ export function TransactionsPage() {
     return list;
   }, [transactions, filters]);
 
-  const totalPages = Math.max(1, Math.ceil(filtered.length / PAGE_SIZE));
-  const pageItems = filtered.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE);
+  const totalPages = Math.max(1, Math.ceil(filtered.length / pageSize));
+
+  // If a filter or page-size change shrinks the total page count below the
+  // page we're currently sitting on, snap back to the last valid page
+  // instead of rendering an empty list.
+  useEffect(() => {
+    if (page > totalPages) setPage(totalPages);
+  }, [page, totalPages]);
+
+  const pageItems = useMemo(
+    () => filtered.slice((page - 1) * pageSize, page * pageSize),
+    [filtered, page, pageSize]
+  );
+
+  function handlePageSizeChange(newSize) {
+    setPageSize(newSize);
+    setPage(1);
+  }
 
   function toggleSelect(id) {
     setSelected((prev) => {
@@ -163,7 +178,14 @@ export function TransactionsPage() {
           </div>
         )}
 
-        <Pagination page={page} totalPages={totalPages} onPageChange={setPage} totalItems={filtered.length} pageSize={PAGE_SIZE} />
+          <Pagination
+          page={page}
+          totalPages={totalPages}
+          onPageChange={setPage}
+          totalItems={filtered.length}
+          pageSize={pageSize}
+          onPageSizeChange={handlePageSizeChange}
+        />
       </Card>
 
       <TransactionFormModal
