@@ -175,3 +175,45 @@ export function subscribeToQuickAdds(uid, callback) {
 
 export const addQuickAdd = (uid, data) => addItem(uid, 'quickAdds', data);
 export const deleteQuickAdd = (uid, id) => deleteItem(uid, 'quickAdds', id);
+
+// ---------- Categories ----------
+
+export function subscribeToCategories(uid, callback) {
+  return subscribeToCollection(uid, 'categories', callback, 'order', 'asc');
+}
+
+export const addCategory = (uid, data) => addItem(uid, 'categories', data);
+export const updateCategory = (uid, id, data) => updateItem(uid, 'categories', id, data);
+export const deleteCategory = (uid, id) => deleteItem(uid, 'categories', id);
+
+// Writes a whole new ordering in one batch so a drag-and-drop reorder can't
+// leave the list half-updated if one write in the sequence failed.
+export async function reorderCategories(uid, updates) {
+  const batch = writeBatch(db);
+  updates.forEach(({ id, order }) => {
+    batch.update(doc(db, 'users', uid, 'categories', id), { order, updatedAt: serverTimestamp() });
+  });
+  return batch.commit();
+}
+
+// One-time seed: populates a brand-new user's categories collection from
+// Equora's existing static category list, using the SAME ids the static
+// list already uses (e.g. 'food_dining') so any transactions already
+// recorded against those ids keep resolving correctly once categories
+// become a real per-user collection.
+export async function seedDefaultCategories(uid, defaults) {
+  const batch = writeBatch(db);
+  defaults.forEach((c, idx) => {
+    batch.set(doc(db, 'users', uid, 'categories', c.id), {
+      name: c.label,
+      type: c.type,
+      parentId: null,
+      order: idx,
+      archived: false,
+      icon: c.icon,
+      createdAt: serverTimestamp(),
+      updatedAt: serverTimestamp(),
+    });
+  });
+  return batch.commit();
+}
