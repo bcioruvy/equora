@@ -5,6 +5,7 @@ import { ProtectedRoute, PublicOnlyRoute } from './ProtectedRoute';
 import { DashboardPage } from '../components/dashboard/DashboardPage';
 import { TransactionsPage } from '../components/transactions/TransactionsPage';
 import { AccountsPage } from '../components/accounts/AccountsPage';
+import { CategoriesPage } from '../components/categories/CategoriesPage';
 import { AnalyticsPage } from '../components/analytics/AnalyticsPage';
 import { BudgetsPage } from '../components/budgets/BudgetsPage';
 import { GoalsPage } from '../components/goals/GoalsPage';
@@ -70,6 +71,7 @@ export function AppRouter() {
         <Route path="dashboard" element={<DashboardPage />} />
         <Route path="transactions" element={<TransactionsPage />} />
         <Route path="accounts" element={<AccountsPage />} />
+        <Route path="categories" element={<CategoriesPage />} />
         <Route path="analytics" element={<AnalyticsPage />} />
         <Route path="budgets" element={<BudgetsPage />} />
         <Route path="goals" element={<GoalsPage />} />
