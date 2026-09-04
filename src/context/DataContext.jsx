@@ -7,7 +7,9 @@ import {
   subscribeToGoals,
   subscribeToNotifications,
   subscribeToQuickAdds,
+  subscribeToCategories,
 } from '../firebase/firestore';
+import { isTransferTransaction } from '../lib/transactions';
 import { isSameMonth, isThisMonth, parseISO, startOfMonth, subMonths } from 'date-fns';
 
 const DataContext = createContext(null);
@@ -20,6 +22,7 @@ export function DataProvider({ children }) {
   const [goals, setGoals] = useState([]);
   const [notifications, setNotifications] = useState([]);
   const [quickAdds, setQuickAdds] = useState([]);
+  const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -30,6 +33,7 @@ export function DataProvider({ children }) {
       setGoals([]);
       setNotifications([]);
       setQuickAdds([]);
+      setCategories([]);
       setLoading(false);
       return;
     }
@@ -64,6 +68,7 @@ export function DataProvider({ children }) {
       }),
       subscribeToNotifications(user.uid, (items) => setNotifications(items)),
       subscribeToQuickAdds(user.uid, (items) => setQuickAdds(items)),
+      subscribeToCategories(user.uid, (items) => setCategories(items)),
     ];
     return () => unsubs.forEach((fn) => fn && fn());
   }, [user]);
@@ -85,8 +90,10 @@ export function DataProvider({ children }) {
     // Account balances and the all-accounts total further down still use
     // every transaction, including transfers, since money still needs to
     // actually move between accounts there.
-    const isTransfer = (t) => Array.isArray(t.tags) && t.tags.includes('transfer');
-    const cashFlowTransactions = transactions.filter((t) => !isTransfer(t));
+    // The actual transfer-detection rule now lives in lib/transactions.js
+    // so Categories (and anything else that needs it later) shares the
+    // exact same check instead of a second copy that could drift.
+    const cashFlowTransactions = transactions.filter((t) => !isTransferTransaction(t));
 
     const thisMonthTx = cashFlowTransactions.filter((t) => isThisMonth(safeDate(t)));
     const lastMonthDate = subMonths(new Date(), 1);
@@ -242,6 +249,7 @@ const value = {
     goals,
     notifications,
     quickAdds,
+    categories,
     loading,
     ...derived,
   };
